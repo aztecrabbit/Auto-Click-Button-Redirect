@@ -28,7 +28,7 @@
     }
 
     function changeLink() {
-        changeTitle('Close this tab');
+        changeTitle();
         function main () {
             changeLink();
         }
@@ -38,9 +38,20 @@
         (document.body).appendChild(script);
     }
 
+    function closeTab() {
+        changeTitle('Close this tab');
+        function main () {
+            window.open('', '_self').close();
+        }
+
+        var script = document.createElement('script');
+        script.appendChild(document.createTextNode('('+ main +')();'));
+        (document.body).appendChild(script);
+    }
+
     function pattern_0() {
         changeLink();
-        window.open('', '_self').close();
+        closeTab();
     }
 
     function pattern_1() {
@@ -50,6 +61,7 @@
             button.click();
         } else {
             changeLink();
+            closeTab();
         }
     }
 

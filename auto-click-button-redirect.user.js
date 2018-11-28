@@ -19,24 +19,28 @@
         console.log('auto-click-button-redirect: ' + value);
     }
 
-    function changeTitle() {
-        document.title = 'Auto Click Button Redirect';
+    function changeTitle(value = '') {
+        if (value) {
+            document.title = value;
+        } else {
+            document.title = 'Auto Click Button Redirect';            
+        }
     }
 
     function changeLink() {
+        changeTitle('Close this tab');
         function main () {
-          changeLink();
-          window.close();
+            changeLink();
         }
 
         var script = document.createElement('script');
         script.appendChild(document.createTextNode('('+ main +')();'));
-        (document.head).appendChild(script);
+        (document.body).appendChild(script);
     }
 
     function pattern_0() {
-        changeTitle();
         changeLink();
+        window.open('', '_self').close();
     }
 
     function pattern_1() {
@@ -55,7 +59,7 @@
             var url = button.getAttribute('href');
             if (url) {
                 changeTitle();
-                window.location.replace(url);
+                window.open(url, '_self');
             }
         }
     }
@@ -73,6 +77,8 @@
 
     switch (window.location.host) {
         case 'ljutkeunvpn.blogspot.com':
+            changeLink();
+            break;
         case 'androidbusiness.us':
             pattern_0();
             break;

@@ -26,8 +26,8 @@
 		return new RegExp('https?://' + location, 'i')
 	}
 
-	function change_title(value = 'Auto Click Button Redirect') {
-        document.title = value
+	function change_title(value = '') {
+        document.title = (value != '') ? value : 'Auto Click Button Redirect'
 	}
 
 	function pattern_href(selector) {
@@ -99,7 +99,7 @@
             if (close == true) window.open('', '_self').close()
         }
 
-        change_title('Close this tab');
+        change_title((close == 'true') ? 'Close this tab' : '');
 
         var script = document.createElement('script');
         script.appendChild(document.createTextNode('(' + execute_commands + ')('+ commands + ', ' + close + ');'));
@@ -166,6 +166,11 @@
 				'location': 'lonelymoon.net/*/',
 				'commands': 'changeLink()',
 				'close': 'true'
+			},
+			{
+				'location': 'ljutkeunvpn.blogspot.com/p/vpn.html?url=*',
+				'commands': 'changeLink()',
+				'close': 'false'
 			}
 		]
 	}

@@ -12,110 +12,182 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
-    'use strict';
+(function() { 'use strict';
 
-    function log(value) {
-        console.log('auto-click-button-redirect: ' + value);
+	String.prototype.replaceAll = function(search, replacement) {
+	    var target = this
+	    return target.split(search).join(replacement)
+	}
+
+	function regexp(location) {
+		location = location.replaceAll('*', '[^\/]+')
+		location = location.replaceAll('\?', '\\?')
+		location = location.replaceAll('\=', '\\=')
+		return new RegExp('https?://' + location, 'i')
+	}
+
+	function change_title(value = 'Auto Click Button Redirect') {
+        document.title = value
+	}
+
+	function pattern_href(selector) {
+		if (selector == '') {
+			console.log('Update selector')
+			return true
+		}
+
+        var element = document.querySelector(selector);
+        if (!element) {
+        	return false
+        }
+
+        var href = element.getAttribute('href');
+        if (!href) {
+        	return false
+        }
+
+        change_title()
+        window.open(href, '_self');
+        return true
+	}
+
+	function pattern_click(selector) {
+		if (selector == '') {
+			console.log('Update selector')
+			return true
+		}
+
+        var element = document.querySelector(selector);
+        if (!element) {
+        	return false
+        }
+
+        change_title();
+        element.click()
+        return true
+	}
+
+    function pattern_onclick(selector) {
+		if (selector == '') {
+			console.log('Update selector')
+			return true
+		}
+
+        var element = document.querySelector(selector);
+        if (element) {
+        	return false
+        }
+
+        var onclick = button.getAttribute('onclick');
+        if (!onclick) {
+        	return false
+        }
+
+        change_title();
+        eval(onclick.replace('_blank', '_self'));
+        return true
     }
 
-    function changeTitle(value = '') {
-        if (value) {
-            document.title = value;
-        } else {
-            document.title = 'Auto Click Button Redirect';            
-        }
-    }
+    function pattern_javascript(commands, close) {
+		if (commands == '') {
+			console.log('Update commands')
+			return true
+		}
 
-    function changeLink() {
-        changeTitle();
-        function main () {
-            changeLink();
+        function execute_commands(commands, close) {
+            eval(commands)
+            if (close == true) window.open('', '_self').close()
         }
+
+        change_title('Close this tab');
 
         var script = document.createElement('script');
-        script.appendChild(document.createTextNode('('+ main +')();'));
+        script.appendChild(document.createTextNode('(' + execute_commands + ')('+ commands + ', ' + close + ');'));
         (document.body).appendChild(script);
+        return true
     }
 
-    function closeTab() {
-        changeTitle('Close this tab');
-        function main () {
-            window.open('', '_self').close();
-        }
+    //
 
-        var script = document.createElement('script');
-        script.appendChild(document.createTextNode('('+ main +')();'));
-        (document.body).appendChild(script);
-    }
+	var location = window.location.href 
+	var data = {
+		'href': [
+			{
+				'location': '*.zippyshare.com/v/*',
+				'selector': '#dlbutton'
+			},
+			{
+				'location': 'www.tetew.info/njir/[^\?]*',
+				'selector': 'div.download-link>a'
+			},
+			{
+				'location': 'www.greget.space/*',
+				'selector': 'div.download-link>a'
+			},
+			{
+				'location': 'spacetica.com/*',
+				'selector': 'div[align=center]>p>a.btn.btn-primary.btn-xs'
+			},
+			{
+				'location': 'subscene.com/subtitles/*/*/*',
+				'selector': '#downloadButton'
+			}
+		],
 
-    function pattern_0() {
-        changeLink();
-        closeTab();
-    }
+		'click': [
+			{
+				'location': 'sweetlantern.com/?id=*',
+				'selector': 'div.humancheck>form>input.sorasubmit'
+			},
+			{
+				'location': 'lonelymoon.net/?id=*',
+				'selector': 'div.humancheck>form>input.sorasubmit'
+			}
+		],
 
-    function pattern_1() {
-        changeTitle();
-        var button = document.querySelector('div.humancheck>form>input.sorasubmit[value=Submit]');
-        if (button) {
-            button.click();
-        } else {
-            changeLink();
-            closeTab();
-        }
-    }
+		'onclick': [
+			{
+				'location': 'asdasd-giga74.com',
+				'selector': '#d>a>div.button.green'
+			},
+			{
+				'location': 'asdasd-decrypt2.safelinkconverter.com',
+				'selector': '.content_box>.decrypt>.redirect_url>div'
+			}
+		],
 
-    function pattern_2(element) {
-        var button = document.querySelector(element);
-        if (button) {
-            var url = button.getAttribute('href');
-            if (url) {
-                changeTitle();
-                window.open(url, '_self');
-            }
-        }
-    }
+		'javascript': [
+			{
+				'location': 'sweetlantern.com/*/',
+				'commands': 'changeLink()',
+				'close': 'true'
+			},
+			{
+				'location': 'lonelymoon.net/*/',
+				'commands': 'changeLink()',
+				'close': 'true'
+			}
+		]
+	}
 
-    function pattern_3(element) {
-        var button = document.querySelector(element);
-        if (button) {
-            var onclick = button.getAttribute('onclick');
-            if (onclick) {
-                changeTitle();
-                eval(onclick.replace('_blank', '_self'));
-            }
-        }
-    }
+	var i
 
-    switch (window.location.host) {
-        case 'ljutkeunvpn.blogspot.com':
-            changeLink();
-            break;
-        case 'androidbusiness.us':
-            pattern_0();
-            break;
-        case 'davinsurance.com':
-        case 'sweetlantern.com':
-        case 'lonelymoon.net':
-            pattern_1();
-            break;
-        case 'www.greget.space':
-        case 'www.tetew.info':
-            pattern_2('div.download-link>a');
-            break;
-        case 'spacetica.com':
-            pattern_2('div[align=center]>p>a.btn.btn-primary.btn-xs');
-            break;
-        case 'telolet.in':
-            pattern_2('#skip');
-            break;
-        case 'giga74.com':
-            pattern_3('#d>a>div.button.green');
-            break;
-        case 'decrypt2.safelinkconverter.com':
-            pattern_3('.content_box>.decrypt>.redirect_url>div');
-            break;
+	for (i in data.href) {
+		if (location.match(regexp(data.href[i].location))) {
+			if (pattern_href(data.href[i].selector)) return true
+		}
+	}
 
-        default: break;
-    }
+	for (i in data.click) {
+		if (location.match(regexp(data.click[i].location))) {
+			if (pattern_click(data.click[i].selector)) return true
+		}
+	}
+
+	for (i in data.javascript) {
+		if (location.match(regexp(data.javascript[i].location))) {
+			if (pattern_javascript(data.javascript[i].commands, data.javascript[i].close)) return true
+		}
+	}
+
 })();

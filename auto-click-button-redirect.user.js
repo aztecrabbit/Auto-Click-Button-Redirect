@@ -14,73 +14,73 @@
 
 (function() { 'use strict';
 
-	String.prototype.replaceAll = function(search, replacement) {
-	    var target = this
-	    return target.split(search).join(replacement)
-	}
+    String.prototype.replaceAll = function(search, replacement) {
+        var target = this
+        return target.split(search).join(replacement)
+    }
 
-	function regexp(location) {
-		location = location.replaceAll('*', '[^\/]+')
-		location = location.replaceAll('\?', '\\?')
-		location = location.replaceAll('\=', '\\=')
-		return new RegExp('https?://' + location, 'i')
-	}
+    function regexp(location) {
+        location = location.replaceAll('*', '[^\/]+')
+        location = location.replaceAll('\?', '\\?')
+        location = location.replaceAll('\=', '\\=')
+        return new RegExp('https?://' + location, 'i')
+    }
 
-	function change_title(value = '') {
+    function change_title(value = '') {
         document.title = (value != '') ? value : 'Auto Click Button Redirect'
-	}
+    }
 
-	function pattern_href(selector) {
-		if (selector == '') {
-			console.log('Update selector')
-			return true
-		}
+    function pattern_href(selector) {
+        if (selector == '') {
+            console.log('Update selector')
+            return true
+        }
 
         var element = document.querySelector(selector);
         if (!element) {
-        	return false
+            return false
         }
 
         var href = element.getAttribute('href');
         if (!href) {
-        	return false
+            return false
         }
 
         change_title()
         window.open(href, '_self');
         return true
-	}
+    }
 
-	function pattern_click(selector) {
-		if (selector == '') {
-			console.log('Update selector')
-			return true
-		}
+    function pattern_click(selector) {
+        if (selector == '') {
+            console.log('Update selector')
+            return true
+        }
 
         var element = document.querySelector(selector);
         if (!element) {
-        	return false
+            return false
         }
 
         change_title();
         element.click()
         return true
-	}
+    }
 
     function pattern_onclick(selector) {
-		if (selector == '') {
-			console.log('Update selector')
-			return true
-		}
+        if (selector == '') {
+            console.log('Update selector')
+            return true
+        }
 
         var element = document.querySelector(selector);
         if (element) {
-        	return false
+            return false
         }
 
         var onclick = button.getAttribute('onclick');
         if (!onclick) {
-        	return false
+            return false
         }
 
         change_title();
@@ -89,10 +89,10 @@
     }
 
     function pattern_javascript(commands, close) {
-		if (commands == '') {
-			console.log('Update commands')
-			return true
-		}
+        if (commands == '') {
+            console.log('Update commands')
+            return true
+        }
 
         function execute_commands(commands, close) {
             eval(commands)
@@ -109,90 +109,99 @@
 
     //
 
-	var location = window.location.href 
-	var data = {
-		'href': [
-			{
-				'location': '*.zippyshare.com/v/*',
-				'selector': '#dlbutton'
-			},
-			{
-				'location': 'www.tetew.info/njir/[^\?]*',
-				'selector': 'div.download-link>a'
-			},
-			{
-				'location': 'www.greget.space/*',
-				'selector': 'div.download-link>a'
-			},
-			{
-				'location': 'spacetica.com/*',
-				'selector': 'div[align=center]>p>a.btn.btn-primary.btn-xs'
-			},
-			{
-				'location': 'subscene.com/subtitles/*/*/*',
-				'selector': '#downloadButton'
-			}
-		],
+    var location = window.location.href 
+    var data = {
+        'href': [
+            {
+                'location': '*.zippyshare.com/v/*',
+                'selector': '#dlbutton'
+            },
+            {
+                'location': 'www.tetew.info/njir/[^\?]*',
+                'selector': 'div.download-link>a'
+            },
+            {
+                'location': 'www.greget.space/*',
+                'selector': 'div.download-link>a'
+            },
+            {
+                'location': 'spacetica.com/*',
+                'selector': 'div[align=center]>p>a.btn.btn-primary.btn-xs'
+            },
+            {
+                'location': 'subscene.com/subtitles/*/*/*',
+                'selector': '#downloadButton'
+            }
+        ],
 
-		'click': [
-			{
-				'location': 'sweetlantern.com/?id=*',
-				'selector': 'div.humancheck>form>input.sorasubmit'
-			},
-			{
-				'location': 'lonelymoon.net/?id=*',
-				'selector': 'div.humancheck>form>input.sorasubmit'
-			}
-		],
+        'click': [
+            {
+                'location': 'davinsurance.com/?id=*',
+                'selector': 'div.humancheck>form>input.sorasubmit'
+            },
+            {
+                'location': 'sweetlantern.com/?id=*',
+                'selector': 'div.humancheck>form>input.sorasubmit'
+            },
+            {
+                'location': 'lonelymoon.net/?id=*',
+                'selector': 'div.humancheck>form>input.sorasubmit'
+            }
+        ],
 
-		'onclick': [
-			{
-				'location': 'asdasd-giga74.com',
-				'selector': '#d>a>div.button.green'
-			},
-			{
-				'location': 'asdasd-decrypt2.safelinkconverter.com',
-				'selector': '.content_box>.decrypt>.redirect_url>div'
-			}
-		],
+        'onclick': [
+            {
+                'location': 'asdasd-giga74.com',
+                'selector': '#d>a>div.button.green'
+            },
+            {
+                'location': 'asdasd-decrypt2.safelinkconverter.com',
+                'selector': '.content_box>.decrypt>.redirect_url>div'
+            }
+        ],
 
-		'javascript': [
-			{
-				'location': 'sweetlantern.com/*/',
-				'commands': 'changeLink()',
-				'close': 'true'
-			},
-			{
-				'location': 'lonelymoon.net/*/',
-				'commands': 'changeLink()',
-				'close': 'true'
-			},
-			{
-				'location': 'ljutkeunvpn.blogspot.com/p/vpn.html?url=*',
-				'commands': 'changeLink()',
-				'close': 'false'
-			}
-		]
-	}
+        'javascript': [
+            {
+                'location': 'davinsurance.com/*/',
+                'commands': 'changeLink()',
+                'close': 'true'
+            },
+            {
+                'location': 'sweetlantern.com/*/',
+                'commands': 'changeLink()',
+                'close': 'true'
+            },
+            {
+                'location': 'lonelymoon.net/*/',
+                'commands': 'changeLink()',
+                'close': 'true'
+            },
+            {
+                'location': 'ljutkeunvpn.blogspot.com/p/vpn.html?url=*',
+                'commands': 'changeLink()',
+                'close': 'false'
+            }
+        ]
+    }
 
-	var i
+    var i
 
-	for (i in data.href) {
-		if (location.match(regexp(data.href[i].location))) {
-			if (pattern_href(data.href[i].selector)) return true
-		}
-	}
+    for (i in data.href) {
+        if (location.match(regexp(data.href[i].location))) {
+            if (pattern_href(data.href[i].selector)) return true
+        }
+    }
 
-	for (i in data.click) {
-		if (location.match(regexp(data.click[i].location))) {
-			if (pattern_click(data.click[i].selector)) return true
-		}
-	}
+    for (i in data.click) {
+        if (location.match(regexp(data.click[i].location))) {
+            if (pattern_click(data.click[i].selector)) return true
+        }
+    }
 
-	for (i in data.javascript) {
-		if (location.match(regexp(data.javascript[i].location))) {
-			if (pattern_javascript(data.javascript[i].commands, data.javascript[i].close)) return true
-		}
-	}
+    for (i in data.javascript) {
+        if (location.match(regexp(data.javascript[i].location))) {
+            if (pattern_javascript(data.javascript[i].commands, data.javascript[i].close)) return true
+        }
+    }
 
 })();

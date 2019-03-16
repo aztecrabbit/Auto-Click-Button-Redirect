@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto Click Button Redirect
 // @namespace    http://tampermonkey.net/
-// @version      1.0.3
+// @version      1.3.190317
 // @description  Auto click button redirect.
 // @author       Aztec Rabbit
 // @homepage     https://github.com/AztecRabbit/Auto-Click-Button-Redirect/
@@ -125,6 +125,10 @@
                 'selector': 'div.download-link>a'
             },
             {
+                'location': 'www.siherp.com/*',
+                'selector': 'div.download-link>a'
+            },
+            {
                 'location': 'spacetica.com/*',
                 'selector': 'div[align=center]>p>a.btn.btn-primary.btn-xs'
             },
@@ -146,6 +150,10 @@
             {
                 'location': 'lonelymoon.net/?id=*',
                 'selector': 'div.humancheck>form>input.sorasubmit'
+            },
+            {
+                'location': 'intercelestial.com/?c=*',
+                'selector': 'div.humancheck>form>input.wedus'
             }
         ],
 
@@ -173,6 +181,11 @@
             },
             {
                 'location': 'lonelymoon.net/*/',
+                'commands': 'changeLink()',
+                'close': 'true'
+            },
+            {
+                'location': 'intercelestial.com/*/',
                 'commands': 'changeLink()',
                 'close': 'true'
             },
